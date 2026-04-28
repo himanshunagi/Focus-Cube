@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@700;900&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#050508;color:#fff;font-family:'Space Grotesk',sans-serif;overflow-x:hidden}
+  .sheet{width:100%;max-width:900px;margin:0 auto;padding:32px 20px}
+  .brand{text-align:center;margin-bottom:40px}
+  .brand h1{font-family:'Orbitron',monospace;font-size:11px;letter-spacing:8px;color:#5B5BFF;text-transform:uppercase;margin-bottom:8px}
+  .brand h2{font-family:'Orbitron',monospace;font-size:38px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,#fff 30%,#8888ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .brand p{color:#6b6b8a;font-size:13px;letter-spacing:3px;text-transform:uppercase;margin-top:8px}
+  
+  .hero{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:40px;align-items:center}
+  @media(max-width:600px){.hero{grid-template-columns:1fr}}
+  
+  .cube-wrap{position:relative;display:flex;align-items:center;justify-content:center;height:340px}
+  .cube-scene{perspective:900px;width:240px;height:240px}
+  .cube{width:240px;height:240px;position:relative;transform-style:preserve-3d;animation:spin 18s linear infinite;transform:rotateX(-20deg) rotateY(30deg)}
+  @keyframes spin{from{transform:rotateX(-20deg) rotateY(30deg)}to{transform:rotateX(-20deg) rotateY(390deg)}}
+  .face{position:absolute;width:240px;height:240px;border:1px solid rgba(91,91,255,0.3);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
+  .face-front {transform:translateZ(120px);background:rgba(10,10,28,0.92)}
+  .face-back  {transform:rotateY(180deg) translateZ(120px);background:rgba(10,10,28,0.92)}
+  .face-left  {transform:rotateY(-90deg) translateZ(120px);background:rgba(8,8,22,0.95)}
+  .face-right {transform:rotateY(90deg) translateZ(120px);background:rgba(8,8,22,0.95)}
+  .face-top   {transform:rotateX(90deg) translateZ(120px);background:rgba(14,14,36,0.95)}
+  .face-bottom{transform:rotateX(-90deg) translateZ(120px);background:rgba(6,6,18,0.95)}
+
+  /* Edge glow lines on cube */
+  .face::before{content:'';position:absolute;inset:0;border:1px solid rgba(91,91,255,0.12)}
+
+  /* Front face: screen + ring UI */
+  .front-ui{width:180px;height:180px;position:relative;display:flex;align-items:center;justify-content:center}
+  .ring-svg{position:absolute;top:0;left:0;width:180px;height:180px}
+  .screen-center{text-align:center;z-index:2;position:relative}
+  .streak-num{font-family:'Orbitron',monospace;font-size:9px;color:#FFB347;letter-spacing:2px}
+  .mode-label{font-size:7px;color:#5B5BFF;letter-spacing:3px;text-transform:uppercase;margin:4px 0 2px}
+  .timer-big{font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1}
+  .xp-bar-wrap{margin-top:6px;width:80px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin-left:auto;margin-right:auto}
+  .xp-bar{height:100%;width:64%;background:linear-gradient(90deg,#5B5BFF,#B066FF);border-radius:2px}
+  .level-txt{font-size:6px;color:#B066FF;letter-spacing:2px;margin-top:3px;text-transform:uppercase}
+
+  /* Side face: buttons */
+  .side-ui{display:flex;flex-direction:column;gap:14px;align-items:center}
+  .cube-btn{width:36px;height:14px;border-radius:4px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.05);position:relative}
+  .cube-btn::after{content:'';position:absolute;left:8px;top:50%;transform:translateY(-50%);width:20px;height:1px;background:rgba(255,255,255,0.3)}
+
+  /* Top face: logo mark */
+  .top-ui{opacity:0.7}
+
+  /* Glows */
+  .glow-ring{position:absolute;width:280px;height:280px;border-radius:50%;border:1px solid rgba(91,91,255,0.08);animation:pulse 3s ease-in-out infinite}
+  .glow-ring:nth-child(2){width:320px;height:320px;animation-delay:1s;border-color:rgba(176,102,255,0.05)}
+  .glow-ring:nth-child(3){width:360px;height:360px;animation-delay:2s;border-color:rgba(91,91,255,0.03)}
+  @keyframes pulse{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.02)}}
+
+  /* Right panel */
+  .hero-info{padding:8px 0}
+  .tag{display:inline-block;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5B5BFF;border:1px solid rgba(91,91,255,0.3);padding:4px 12px;border-radius:20px;margin-bottom:20px}
+  .hero-title{font-family:'Orbitron',monospace;font-size:22px;font-weight:700;line-height:1.2;margin-bottom:12px}
+  .hero-desc{font-size:13px;color:#8888aa;line-height:1.7;margin-bottom:24px}
+  .feature-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .feature-list li{display:flex;align-items:center;gap:10px;font-size:13px;color:#ccc}
+  .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+  .dot-blue{background:#5B5BFF}
+  .dot-purple{background:#B066FF}
+  .dot-pink{background:#FF6699}
+  .dot-amber{background:#FFB347}
+
+  /* Specs grid */
+  .specs-section{margin-bottom:40px}
+  .section-label{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#5B5BFF;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+  .section-label::after{content:'';flex:1;height:1px;background:rgba(91,91,255,0.2)}
+  .specs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;border:1px solid rgba(91,91,255,0.15);border-radius:12px;overflow:hidden}
+  .spec-card{background:rgba(255,255,255,0.02);padding:20px 18px;border-right:1px solid rgba(91,91,255,0.1)}
+  .spec-card:last-child{border-right:none}
+  .spec-icon{font-size:18px;margin-bottom:8px}
+  .spec-val{font-family:'Orbitron',monospace;font-size:20px;font-weight:700;color:#fff;line-height:1}
+  .spec-unit{font-size:11px;color:#5B5BFF;margin-left:2px}
+  .spec-name{font-size:11px;color:#6b6b8a;margin-top:4px;letter-spacing:1px}
+
+  /* Views */
+  .views-section{margin-bottom:40px}
+  .views-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:500px){.views-grid{grid-template-columns:1fr 1fr}}
+  .view-card{background:rgba(255,255,255,0.02);border:1px solid rgba(91,91,255,0.12);border-radius:12px;padding:20px;text-align:center}
+  .view-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6b8a;margin-top:12px}
+
+  /* Mode switcher */
+  .modes-section{margin-bottom:40px}
+  .modes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .mode-card{background:rgba(255,255,255,0.02);border:1px solid rgba(91,91,255,0.12);border-radius:12px;padding:18px}
+  .mode-card.active{border-color:rgba(91,91,255,0.5);background:rgba(91,91,255,0.06)}
+  .mode-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:4px}
+  .mode-dur{font-family:'Orbitron',monospace;font-size:20px;font-weight:700;color:#5B5BFF}
+  .mode-desc{font-size:11px;color:#6b6b8a;margin-top:4px}
+
+  /* Gamification */
+  .game-section{margin-bottom:40px}
+  .game-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:480px){.game-grid{grid-template-columns:1fr}}
+  .game-card{background:rgba(255,255,255,0.02);border:1px solid rgba(91,91,255,0.12);border-radius:12px;padding:20px}
+  .game-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#6b6b8a;margin-bottom:12px}
+  .level-display{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+  .level-num{font-family:'Orbitron',monospace;font-size:32px;font-weight:900;color:#B066FF}
+  .level-sub{font-size:12px;color:#8888aa}
+  .xp-full{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;margin-bottom:6px}
+  .xp-fill{height:100%;background:linear-gradient(90deg,#5B5BFF,#B066FF);border-radius:3px;width:64%;transition:width 0.5s}
+  .xp-txt{font-size:11px;color:#6b6b8a}
+  .streak-display{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+  .streak-dot{width:28px;height:28px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:10px}
+  .streak-dot.done{background:rgba(255,179,71,0.15);border-color:rgba(255,179,71,0.4);color:#FFB347}
+  .streak-dot.today{background:rgba(91,91,255,0.15);border-color:rgba(91,91,255,0.5);color:#8888ff}
+  .streak-dot.empty{color:#333}
+
+  /* CTA */
+  .cta-bar{text-align:center;padding:36px;border:1px solid rgba(91,91,255,0.2);border-radius:16px;background:rgba(91,91,255,0.04)}
+  .cta-price{font-family:'Orbitron',monospace;font-size:36px;font-weight:900;color:#fff;margin:8px 0}
+  .cta-sub{font-size:13px;color:#6b6b8a;margin-bottom:20px}
+  .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn-primary{background:#5B5BFF;color:#fff;border:none;padding:12px 28px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;cursor:pointer;transition:all 0.2s}
+  .btn-primary:hover{background:#7777ff;transform:translateY(-1px)}
+  .btn-outline{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.2);padding:12px 28px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s}
+  .btn-outline:hover{border-color:rgba(91,91,255,0.5)}
+
+  .watermark{text-align:center;margin-top:32px;font-size:10px;letter-spacing:3px;color:#333;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- Header -->
+  <div class="brand">
+    <h1>Product Design Brief · 2025</h1>
+    <h2>FOCUS CUBE</h2>
+    <p>Gamified Focus Timer · Physical Device</p>
+  </div>
+
+  <!-- Hero: 3D Cube + Info -->
+  <div class="hero">
+    <div class="cube-wrap">
+      <div class="glow-ring"></div>
+      <div class="glow-ring"></div>
+      <div class="glow-ring"></div>
+      <div class="cube-scene">
+        <div class="cube">
+
+          <!-- FRONT FACE: Display + Ring -->
+          <div class="face face-front">
+            <div class="front-ui">
+              <svg class="ring-svg" viewBox="0 0 180 180">
+                <!-- BG ring -->
+                <circle cx="90" cy="90" r="80" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="10"/>
+                <!-- Progress ring (blue top arc) -->
+                <circle cx="90" cy="90" r="80" fill="none" stroke="url(#ringGrad)" stroke-width="10" stroke-dasharray="502" stroke-dashoffset="126" stroke-linecap="round" transform="rotate(-90 90 90)"/>
+                <!-- Glow dot at end -->
+                <circle cx="90" cy="10" r="5" fill="#5B5BFF" filter="url(#glow)" opacity="0.9"/>
+                <defs>
+                  <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#5B5BFF"/>
+                    <stop offset="100%" stop-color="#B066FF"/>
+                  </linearGradient>
+                  <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                </defs>
+              </svg>
+              <div class="screen-center">
+                <div class="streak-num">🔥 12.5</div>
+                <div class="mode-label">Focus Mode</div>
+                <div class="timer-big">25:00</div>
+                <div class="xp-bar-wrap"><div class="xp-bar"></div></div>
+                <div class="level-txt">Level 12 · 320/500 XP</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BACK FACE: Spec info -->
+          <div class="face face-back">
+            <div style="text-align:center;padding:20px">
+              <div style="font-size:8px;letter-spacing:3px;color:#5B5BFF;text-transform:uppercase;margin-bottom:10px">Focus Cube v1</div>
+              <div style="font-size:9px;color:#6b6b8a;line-height:1.8">
+                55mm × 55mm × 55mm<br>
+                Matte Black Aluminium<br>
+                LED Ring: 36 NeoPixels<br>
+                Vibration Motor: LRA<br>
+                Battery: 600mAh LiPo<br>
+                BLE 5.0 + USB-C<br>
+                Gorilla Glass Panel
+              </div>
+            </div>
+          </div>
+
+          <!-- LEFT FACE: Buttons -->
+          <div class="face face-left">
+            <div class="side-ui">
+              <div class="cube-btn"></div>
+              <div class="cube-btn"></div>
+              <div style="width:36px;height:8px;border-radius:3px;background:rgba(91,91,255,0.3);border:1px solid rgba(91,91,255,0.6)"></div>
+            </div>
+          </div>
+
+          <!-- RIGHT FACE: USB port -->
+          <div class="face face-right">
+            <div style="text-align:center">
+              <div style="width:14px;height:6px;border:1px solid rgba(255,255,255,0.3);border-radius:2px;margin:0 auto;margin-bottom:6px"></div>
+              <div style="font-size:6px;color:#6b6b8a;letter-spacing:2px">USB-C</div>
+            </div>
+          </div>
+
+          <!-- TOP FACE: Logo -->
+          <div class="face face-top">
+            <div class="top-ui" style="text-align:center">
+              <svg width="60" height="60" viewBox="0 0 60 60">
+                <rect x="10" y="10" width="40" height="40" rx="10" fill="none" stroke="rgba(91,91,255,0.5)" stroke-width="1"/>
+                <circle cx="30" cy="30" r="12" fill="none" stroke="rgba(91,91,255,0.4)" stroke-width="1"/>
+                <circle cx="30" cy="30" r="4" fill="rgba(91,91,255,0.5)"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- BOTTOM FACE: Anti-slip -->
+          <div class="face face-bottom">
+            <div style="text-align:center;opacity:0.5">
+              <div style="width:60px;height:60px;border:1px dashed rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center">
+                <div style="font-size:6px;color:#6b6b8a;letter-spacing:1px">ANTI-SLIP</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Info -->
+    <div class="hero-info">
+      <div class="tag">Physical Product</div>
+      <div class="hero-title">Focus like<br>a game. Win<br>every day.</div>
+      <div class="hero-desc">A premium desk cube that replaces your phone during focus sessions. Visual LED ring, silent haptics, streak tracking — no app needed.</div>
+      <ul class="feature-list">
+        <li><span class="dot dot-blue"></span>360° LED progress ring (36 NeoPixels)</li>
+        <li><span class="dot dot-purple"></span>Silent LRA vibration — no beeps</li>
+        <li><span class="dot dot-pink"></span>XP + levels + streak tracking</li>
+        <li><span class="dot dot-amber"></span>Works offline, no app required</li>
+        <li><span class="dot dot-blue"></span>60hr battery · USB-C charging</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Specs -->
+  <div class="specs-section">
+    <div class="section-label">Hardware Specifications</div>
+    <div class="specs-grid">
+      <div class="spec-card">
+        <div class="spec-icon">📐</div>
+        <div><span class="spec-val">55</span><span class="spec-unit">mm³</span></div>
+        <div class="spec-name">Cube Dimensions</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-icon">💡</div>
+        <div><span class="spec-val">36</span><span class="spec-unit">LEDs</span></div>
+        <div class="spec-name">NeoPixel Ring</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-icon">🔋</div>
+        <div><span class="spec-val">60</span><span class="spec-unit">hr</span></div>
+        <div class="spec-name">Battery Life</div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-icon">📳</div>
+        <div><span class="spec-val">LRA</span></div>
+        <div class="spec-name">Haptic Motor</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 View Diagrams (SVG schematics) -->
+  <div class="views-section">
+    <div class="section-label">Product Views</div>
+    <div class="views-grid">
+
+      <!-- Front View -->
+      <div class="view-card">
+        <svg width="100%" viewBox="0 0 120 120">
+          <rect x="10" y="10" width="100" height="100" rx="12" fill="rgba(255,255,255,0.02)" stroke="rgba(91,91,255,0.4)" stroke-width="1"/>
+          <!-- LED Ring -->
+          <circle cx="60" cy="60" r="42" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="6"/>
+          <circle cx="60" cy="60" r="42" fill="none" stroke="url(#fgRing)" stroke-width="6" stroke-dasharray="264" stroke-dashoffset="66" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+          <defs>
+            <linearGradient id="fgRing" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#5B5BFF"/>
+              <stop offset="100%" stop-color="#B066FF"/>
+            </linearGradient>
+          </defs>
+          <!-- Screen area -->
+          <circle cx="60" cy="60" r="30" fill="rgba(5,5,20,0.8)" stroke="rgba(91,91,255,0.2)" stroke-width="0.5"/>
+          <text x="60" y="56" text-anchor="middle" fill="#fff" font-family="monospace" font-size="10" font-weight="bold">25:00</text>
+          <text x="60" y="68" text-anchor="middle" fill="#6b6b8a" font-size="5">FOCUS MODE</text>
+          <!-- Corner screws -->
+          <circle cx="20" cy="20" r="2" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+          <circle cx="100" cy="20" r="2" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+          <circle cx="20" cy="100" r="2" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+          <circle cx="100" cy="100" r="2" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+        </svg>
+        <div class="view-label">Front View</div>
+      </div>
+
+      <!-- Side View -->
+      <div class="view-card">
+        <svg width="100%" viewBox="0 0 120 120">
+          <rect x="30" y="10" width="60" height="100" rx="8" fill="rgba(255,255,255,0.02)" stroke="rgba(91,91,255,0.3)" stroke-width="1"/>
+          <!-- Buttons -->
+          <rect x="30" y="36" width="8" height="16" rx="2" fill="rgba(91,91,255,0.3)" stroke="rgba(91,91,255,0.6)" stroke-width="0.5"/>
+          <rect x="30" y="58" width="8" height="16" rx="2" fill="rgba(91,91,255,0.3)" stroke="rgba(91,91,255,0.6)" stroke-width="0.5"/>
+          <!-- USB C -->
+          <rect x="48" y="104" width="24" height="6" rx="2" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
+          <!-- Labels -->
+          <text x="14" y="46" text-anchor="middle" fill="#5B5BFF" font-size="5">+</text>
+          <text x="14" y="68" text-anchor="middle" fill="#5B5BFF" font-size="5">−</text>
+          <text x="60" y="118" text-anchor="middle" fill="#6b6b8a" font-size="5">USB-C</text>
+          <!-- Vibration zone -->
+          <line x1="90" y1="46" x2="100" y2="46" stroke="rgba(176,102,255,0.4)" stroke-width="0.5" stroke-dasharray="2 1"/>
+          <line x1="90" y1="50" x2="100" y2="50" stroke="rgba(176,102,255,0.4)" stroke-width="0.5" stroke-dasharray="2 1"/>
+          <line x1="90" y1="54" x2="100" y2="54" stroke="rgba(176,102,255,0.4)" stroke-width="0.5" stroke-dasharray="2 1"/>
+          <text x="108" y="50" text-anchor="middle" fill="#B066FF" font-size="5">HAP</text>
+        </svg>
+        <div class="view-label">Side View</div>
+      </div>
+
+      <!-- Top View -->
+      <div class="view-card">
+        <svg width="100%" viewBox="0 0 120 120">
+          <rect x="10" y="10" width="100" height="100" rx="12" fill="rgba(255,255,255,0.02)" stroke="rgba(91,91,255,0.3)" stroke-width="1"/>
+          <!-- Anodised surface lines -->
+          <line x1="10" y1="35" x2="110" y2="35" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
+          <line x1="10" y1="60" x2="110" y2="60" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
+          <line x1="10" y1="85" x2="110" y2="85" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
+          <!-- Logo mark -->
+          <circle cx="60" cy="60" r="18" fill="none" stroke="rgba(91,91,255,0.3)" stroke-width="1"/>
+          <circle cx="60" cy="60" r="5" fill="rgba(91,91,255,0.4)"/>
+          <text x="60" y="94" text-anchor="middle" fill="#6b6b8a" font-size="6" letter-spacing="2">TOP</text>
+          <!-- Corner chamfers marker -->
+          <text x="20" y="20" fill="rgba(255,255,255,0.1)" font-size="6">✦</text>
+          <text x="94" y="20" fill="rgba(255,255,255,0.1)" font-size="6">✦</text>
+        </svg>
+        <div class="view-label">Top View</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Focus Modes -->
+  <div class="modes-section">
+    <div class="section-label">Built-in Focus Modes</div>
+    <div class="modes-grid">
+      <div class="mode-card active">
+        <div class="mode-name">Deep Focus</div>
+        <div class="mode-dur">25<span style="font-size:12px;color:#8888aa">min</span></div>
+        <div class="mode-desc">Classic Pomodoro · 5min break</div>
+      </div>
+      <div class="mode-card">
+        <div class="mode-name">Sprint</div>
+        <div class="mode-dur" style="color:#FF6699">10<span style="font-size:12px;color:#8888aa">min</span></div>
+        <div class="mode-desc">Quick task bursts</div>
+      </div>
+      <div class="mode-card">
+        <div class="mode-name">Flow State</div>
+        <div class="mode-dur" style="color:#FFB347">50<span style="font-size:12px;color:#8888aa">min</span></div>
+        <div class="mode-desc">Deep work · 10min break</div>
+      </div>
+      <div class="mode-card">
+        <div class="mode-name">Custom</div>
+        <div class="mode-dur" style="color:#B066FF">∞</div>
+        <div class="mode-desc">Set via +/− buttons</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gamification -->
+  <div class="game-section">
+    <div class="section-label">Gamification System</div>
+    <div class="game-grid">
+      <div class="game-card">
+        <div class="game-title">Level &amp; XP Progress</div>
+        <div class="level-display">
+          <div class="level-num">12</div>
+          <div class="level-sub">Focus Master</div>
+        </div>
+        <div class="xp-full"><div class="xp-fill"></div></div>
+        <div class="xp-txt">320 / 500 XP · +25 XP per session</div>
+      </div>
+      <div class="game-card">
+        <div class="game-title">Weekly Streak</div>
+        <div style="font-family:'Orbitron',monospace;font-size:28px;font-weight:700;color:#FFB347;margin-bottom:8px">🔥 12.5</div>
+        <div class="streak-display">
+          <div class="streak-dot done">M</div>
+          <div class="streak-dot done">T</div>
+          <div class="streak-dot done">W</div>
+          <div class="streak-dot today">T</div>
+          <div class="streak-dot empty">F</div>
+          <div class="streak-dot empty">S</div>
+          <div class="streak-dot empty">S</div>
+        </div>
+        <div class="xp-txt" style="margin-top:8px">Stored on-device, no app needed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LED Ring Detail -->
+  <div style="margin-bottom:40px">
+    <div class="section-label">LED Ring Color System</div>
+    <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(91,91,255,0.12);border-radius:12px;padding:20px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#5B5BFF,#B066FF);flex-shrink:0"></div>
+          <div><div style="font-size:12px;color:#fff">Blue → Purple</div><div style="font-size:11px;color:#6b6b8a">Session in progress</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#FFB347,#FF6699);flex-shrink:0"></div>
+          <div><div style="font-size:12px;color:#fff">Amber → Pink</div><div style="font-size:11px;color:#6b6b8a">Break time</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#44cc88,#00ffaa);flex-shrink:0"></div>
+          <div><div style="font-size:12px;color:#fff">Green pulse</div><div style="font-size:11px;color:#6b6b8a">Session complete</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#ff4444,#ff8800);flex-shrink:0"></div>
+          <div><div style="font-size:12px;color:#fff">Red flash</div><div style="font-size:11px;color:#6b6b8a">Level up!</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA / Pricing -->
+  <div class="cta-bar">
+    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5B5BFF">Target Retail Price</div>
+    <div class="cta-price">$79</div>
+    <div class="cta-sub">Matte Black Aluminium · Gorilla Glass · USB-C · 60hr battery</div>
+    <div class="cta-btns">
+      <button class="btn-primary">Pre-order Now</button>
+      <button class="btn-outline">Manufacturing Brief ↗</button>
+    </div>
+  </div>
+
+  <div class="watermark">Focus Cube · Product Design Sheet · Rev 1.0 · 2025</div>
+</div>
+</body>
+</html>
