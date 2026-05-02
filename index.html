@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a14;color:#fff;font-family:'Space Grotesk',sans-serif}
+.page{max-width:960px;margin:0 auto;padding:36px 20px}
+
+.brand{text-align:center;margin-bottom:40px}
+.brand .eye{font-size:10px;letter-spacing:8px;color:#5B5BFF;text-transform:uppercase;margin-bottom:8px}
+.brand h2{font-family:'Orbitron',monospace;font-size:34px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,#fff 30%,#9988ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.brand .sub{color:#6b6b8a;font-size:12px;letter-spacing:3px;text-transform:uppercase;margin-top:6px}
+.ver-badge{display:inline-block;background:rgba(91,91,255,0.15);border:1px solid rgba(91,91,255,0.4);color:#8888ff;font-size:10px;letter-spacing:2px;padding:3px 14px;border-radius:20px;margin-top:10px}
+
+.sec{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#5B5BFF;margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.sec::after{content:'';flex:1;height:1px;background:rgba(91,91,255,0.2)}
+
+/* ══ 3D CUBE ══ */
+.cube-hero{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:52px;align-items:center}
+@media(max-width:600px){.cube-hero{grid-template-columns:1fr}}
+.cube-wrap{position:relative;display:flex;align-items:center;justify-content:center;height:360px}
+.gring{position:absolute;border-radius:50%;border:1px solid rgba(91,91,255,0.06);animation:gpulse 3s ease-in-out infinite}
+.gring:nth-child(1){width:300px;height:300px}
+.gring:nth-child(2){width:360px;height:360px;animation-delay:1.5s;border-color:rgba(176,102,255,0.03)}
+@keyframes gpulse{0%,100%{opacity:.3}50%{opacity:1}}
+.cube-scene{perspective:1000px;width:260px;height:260px}
+.cube3d{width:260px;height:260px;position:relative;transform-style:preserve-3d;animation:cspin 24s linear infinite}
+@keyframes cspin{from{transform:rotateX(-20deg) rotateY(20deg)}to{transform:rotateX(-20deg) rotateY(380deg)}}
+.f{position:absolute;width:260px;height:260px;display:flex;align-items:center;justify-content:center;overflow:visible}
+.f-fr{transform:translateZ(130px)}
+.f-bk{transform:rotateY(180deg) translateZ(130px)}
+.f-lt{transform:rotateY(-90deg) translateZ(130px)}
+.f-rt{transform:rotateY(90deg) translateZ(130px)}
+.f-tp{transform:rotateX(90deg) translateZ(130px)}
+.f-bt{transform:rotateX(-90deg) translateZ(130px)}
+
+.cube-info .htag{display:inline-block;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#5B5BFF;border:1px solid rgba(91,91,255,0.3);padding:3px 10px;border-radius:20px;margin-bottom:14px}
+.cube-info .htitle{font-family:'Orbitron',monospace;font-size:19px;font-weight:700;line-height:1.3;margin-bottom:10px}
+.cube-info .hdesc{font-size:12px;color:#8888aa;line-height:1.7;margin-bottom:16px}
+.feat-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.feat-list li{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#ccc;line-height:1.4}
+.fdot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:5px}
+
+/* ══ FLOW ══ */
+.flow-tabs{display:flex;border:1px solid rgba(91,91,255,0.2);border-radius:12px;overflow:visible;margin-bottom:20px;flex-wrap:wrap}
+.ftab{flex:1;min-width:80px;padding:10px 6px;text-align:center;font-size:10px;font-weight:600;color:#6b6b8a;cursor:pointer;border-right:1px solid rgba(91,91,255,0.12);transition:all 0.2s;background:rgba(255,255,255,0.01)}
+.ftab:last-child{border-right:none}
+.ftab.active{background:rgba(91,91,255,0.1);color:#fff}
+.ftab-num{font-family:'Orbitron',monospace;font-size:8px;color:#5B5BFF;display:block;margin-bottom:2px}
+.flow-panel{display:none}
+.flow-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}
+@media(max-width:500px){.flow-panel.active{grid-template-columns:1fr}}
+.flow-screen{background:rgba(8,8,22,0.95);border:1px solid rgba(91,91,255,0.3);border-radius:16px;padding:24px;text-align:center;min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;position:relative}
+.flow-info{display:flex;flex-direction:column;gap:10px}
+.fi-tag{display:inline-block;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:20px;width:fit-content}
+.fi-title{font-size:15px;font-weight:700;color:#fff;line-height:1.3}
+.fi-desc{font-size:12px;color:#8888aa;line-height:1.6}
+.fi-box{background:rgba(91,91,255,0.05);border:1px solid rgba(91,91,255,0.14);border-radius:8px;padding:10px 12px;font-size:11px;color:#8888aa;line-height:1.6}
+.fi-box strong{color:#ccc}
+.flow-nav{display:flex;justify-content:center;gap:10px;margin-top:14px}
+.fnav{background:rgba(91,91,255,0.08);border:1px solid rgba(91,91,255,0.25);color:#8888ff;padding:7px 18px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:12px;cursor:pointer}
+.fnav.p{background:#5B5BFF;color:#fff;border-color:#5B5BFF}
+
+/* ══ SIX FACES ══ */
+.faces-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:48px}
+@media(max-width:580px){.faces-grid{grid-template-columns:1fr 1fr}}
+.face-card{border-radius:18px;overflow:hidden;background:#08081a;border:1px solid rgba(91,91,255,0.14);display:flex;flex-direction:column;align-items:center;position:relative}
+.face-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;border-radius:18px 18px 0 0;z-index:2}
+.fc-fr::before{background:linear-gradient(90deg,#5B5BFF,#B066FF)}
+.fc-tp::before{background:linear-gradient(90deg,#44cc88,#00eebb)}
+.fc-rt::before{background:linear-gradient(90deg,#B066FF,#FF6699)}
+.fc-lt::before{background:linear-gradient(90deg,#5B5BFF,#44cc88)}
+.fc-bk::before{background:linear-gradient(90deg,#FFB347,#FF6699)}
+.fc-bt::before{background:linear-gradient(90deg,#6b6b8a,#333)}
+.face-body{padding:16px 14px 0;width:100%;display:flex;justify-content:center}
+.face-foot{padding:10px 14px 16px;text-align:center;width:100%}
+.flbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#5B5BFF;margin-bottom:3px}
+.fname{font-size:12px;font-weight:700;color:#fff}
+.face-display{width:188px;height:188px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border-radius:12px}
+.vbtn{width:130px;height:30px;border-radius:8px;border:1px solid rgba(176,102,255,0.35);background:rgba(176,102,255,0.08);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#B066FF;gap:5px}
+.vbtn.on{border-color:#B066FF;background:rgba(176,102,255,0.2)}
+.vdiv{width:90px;height:1px;background:rgba(91,91,255,0.12)}
+.vmode{width:130px;height:26px;border-radius:8px;border:1px solid rgba(91,91,255,0.2);background:rgba(91,91,255,0.06);display:flex;align-items:center;justify-content:center;font-size:9px;color:#6666bb}
+.dial-c{width:96px;height:96px;border-radius:50%;border:2.5px solid rgba(91,91,255,0.5);background:rgba(10,10,30,0.95);position:relative;display:flex;align-items:center;justify-content:center}
+.dial-c::before{content:'';position:absolute;top:7px;left:50%;transform:translateX(-50%);width:8px;height:8px;background:#5B5BFF;border-radius:50%;z-index:2}
+.dial-c::after{content:'';position:absolute;inset:12px;border-radius:50%;border:1px dashed rgba(91,91,255,0.2)}
+
+/* ══ LED ══ */
+.led-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px}
+@media(max-width:480px){.led-grid{grid-template-columns:1fr}}
+.led-card{background:rgba(255,255,255,0.02);border-radius:14px;padding:20px;display:flex;gap:16px;align-items:center;border:1px solid rgba(91,91,255,0.1);position:relative;overflow:hidden}
+.led-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.lc-s::before{background:linear-gradient(90deg,#5B5BFF,#B066FF)}
+.lc-b::before{background:linear-gradient(90deg,#FFB347,#FF6699)}
+.lc-d::before{background:linear-gradient(90deg,#44cc88,#00eebb)}
+.lc-l::before{background:linear-gradient(90deg,#ff4444,#FFB347)}
+.led-state{font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;font-weight:600}
+.led-name{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;margin-bottom:4px}
+.led-desc{font-size:11px;color:#8888aa;line-height:1.5}
+.led-trigger{font-size:9px;padding:3px 8px;border-radius:20px;display:inline-block;margin-top:6px}
+
+/* ══ XP ══ */
+.xp-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:40px}
+@media(max-width:480px){.xp-grid{grid-template-columns:1fr}}
+.xp-card{background:rgba(255,255,255,0.02);border:1px solid rgba(91,91,255,0.12);border-radius:12px;padding:18px}
+.xp-card-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6b6b8a;margin-bottom:12px}
+.xp-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.xp-row:last-child{border-bottom:none}
+.xbadge{width:40px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:9px;font-weight:700;flex-shrink:0}
+.b200{background:rgba(68,204,136,0.12);color:#44cc88;border:1px solid rgba(68,204,136,0.3)}
+.b100{background:rgba(255,179,71,0.12);color:#FFB347;border:1px solid rgba(255,179,71,0.3)}
+.b20{background:rgba(91,91,255,0.12);color:#8888ff;border:1px solid rgba(91,91,255,0.3)}
+.xdesc{font-size:11px;color:#aaa;line-height:1.3}
+.streak-big{font-family:'Orbitron',monospace;font-size:34px;font-weight:900;color:#FFB347}
+.streak-dots{display:flex;gap:5px;flex-wrap:wrap;margin:10px 0}
+.sd{width:32px;height:32px;border-radius:6px;border:1px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.sd.done{background:rgba(255,179,71,0.1);border-color:rgba(255,179,71,0.35)}
+.sd.today{background:rgba(91,91,255,0.12);border-color:rgba(91,91,255,0.4)}
+.sdl{font-size:6px;color:#333}.sd.done .sdl{color:#FFB347}.sd.today .sdl{color:#8888ff}
+.sdv{font-size:8px;font-family:'Orbitron',monospace;color:#222}.sd.done .sdv{color:#FFB347}.sd.today .sdv{color:#5B5BFF}
+
+.specs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border:1px solid rgba(91,91,255,0.15);border-radius:12px;overflow:hidden;margin-bottom:40px}
+.spec{background:rgba(255,255,255,0.02);padding:18px 14px;border-right:1px solid rgba(91,91,255,0.08)}
+.spec:last-child{border-right:none}
+.sv{font-family:'Orbitron',monospace;font-size:18px;font-weight:700;color:#fff}
+.su{font-size:9px;color:#5B5BFF;margin-left:2px}
+.sn{font-size:10px;color:#6b6b8a;margin-top:4px}
+.cta{text-align:center;padding:30px;border:1px solid rgba(91,91,255,0.2);border-radius:16px;background:rgba(91,91,255,0.04);margin-bottom:24px}
+.btn-p{background:#5B5BFF;color:#fff;border:none;padding:11px 26px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;cursor:pointer}
+.btn-o{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.15);padding:11px 26px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:12px;cursor:pointer}
+.footer{text-align:center;font-size:9px;letter-spacing:3px;color:#1a1a2a;text-transform:uppercase}
+@keyframes greenPulse{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes softpulse{0%,100%{opacity:.3}50%{opacity:.8}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="brand">
+  <div class="eye">Product Design Brief · Version 6.2 · Ring Fixed</div>
+  <h2>FOCUS CUBE</h2>
+  <div class="sub">Matte Silicone · Rounded Edges · Physical Device</div>
+  <div class="ver-badge">v6.2 — Ring fully visible · No clipping anywhere</div>
+</div>
+
+<!-- ══════════════════════════
+     3D PRODUCT VIEW
+══════════════════════════ -->
+<div class="sec">3D Product View</div>
+<div class="cube-hero">
+  <div class="cube-wrap">
+    <div class="gring"></div><div class="gring"></div>
+    <div class="cube-scene">
+      <div class="cube3d">
+
+        <!-- FRONT FACE
+             Key fix: face is 260x260.
+             Ring cx=130,cy=130, r=100, stroke-width=12
+             Outermost pixel = 130 - 100 - 6 = 24 from each edge → safe on all 4 sides
+        -->
+                <div class="f f-fr">
+          <svg width="260" height="260" viewBox="0 0 260 260">
+            <rect x="0" y="0" width="260" height="260" rx="54" fill="#1a1d28"/>
+            <rect x="0" y="0" width="260" height="130" rx="54" fill="rgba(255,255,255,0.03)"/>
+            <rect x="16" y="16" width="228" height="228" rx="40" fill="#0d0f18"/>
+            <rect x="22" y="22" width="216" height="216" rx="34" fill="#080a12"/>
+            <circle cx="130" cy="130" r="85" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="10"/>
+            <circle cx="130" cy="130" r="85" fill="none" stroke="url(#ring3d)" stroke-width="10"
+              stroke-dasharray="534" stroke-dashoffset="134" stroke-linecap="round"
+              transform="rotate(-90 130 130)"/>
+            <defs>
+              <linearGradient id="ring3d" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#5B5BFF"/>
+                <stop offset="100%" stop-color="#B066FF"/>
+              </linearGradient>
+              <clipPath id="cubeFrontInnerClip">
+                <circle cx="130" cy="130" r="72"/>
+              </clipPath>
+            </defs>
+            <circle cx="130" cy="45" r="5" fill="#B066FF" opacity="0.85">
+              <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <g clip-path="url(#cubeFrontInnerClip)">
+              <rect x="66" y="63" width="20" height="11" rx="2.5" fill="none" stroke="rgba(68,204,136,0.75)" stroke-width="1"/>
+              <rect x="67" y="64" width="15" height="9" rx="1.5" fill="rgba(68,204,136,0.6)"/>
+              <rect x="87" y="67" width="2.5" height="5" rx="1" fill="rgba(68,204,136,0.45)"/>
+              <text x="94" y="73" fill="rgba(255,255,255,0.55)" font-size="9" font-family="monospace">72%</text>
+              <text x="120" y="73" fill="rgba(176,102,255,0.9)" font-size="11" font-family="monospace">&#8776;</text>
+              <path d="M88 80 L172 80 L172 87 L148 127 L172 167 L172 174 L88 174 L88 167 L112 127 L88 87 Z"
+                fill="rgba(91,91,255,0.1)" stroke="rgba(91,91,255,0.6)" stroke-width="1.8" stroke-linejoin="round"/>
+              <rect x="88" y="76" width="84" height="9" rx="3" fill="rgba(91,91,255,0.18)" stroke="rgba(91,91,255,0.58)" stroke-width="1.1"/>
+              <rect x="88" y="169" width="84" height="9" rx="3" fill="rgba(91,91,255,0.18)" stroke="rgba(91,91,255,0.58)" stroke-width="1.1"/>
+              <clipPath id="c3ts"><polygon points="172,87 148,127 112,127 88,87"/></clipPath>
+              <rect x="88" y="87" width="84" height="40" clip-path="url(#c3ts)" fill="rgba(91,91,255,0.44)"/>
+              <ellipse cx="130" cy="126.5" rx="10" ry="3.2" fill="rgba(91,91,255,0.8)"/>
+              <line x1="130" y1="127" x2="130" y2="152" stroke="rgba(91,91,255,0.56)" stroke-width="2.8" stroke-dasharray="3 2.5">
+                <animate attributeName="stroke-dashoffset" from="0" to="11" dur="0.38s" repeatCount="indefinite"/>
+              </line>
+              <clipPath id="c3bs"><polygon points="88,167 112,127 148,127 172,167"/></clipPath>
+              <rect x="88" y="150" width="84" height="17" clip-path="url(#c3bs)" fill="rgba(176,102,255,0.52)"/>
+              <text x="130" y="186" text-anchor="middle" fill="rgba(176,102,255,0.9)" font-size="8" font-family="monospace" font-weight="bold">LVL 12 &#183; 320/500 XP</text>
+              <text x="130" y="197" text-anchor="middle" fill="rgba(255,179,71,0.9)" font-size="8.5" font-family="monospace">&#128293; Streak: 7</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- BACK -->
+        <div class="f f-bk">
+          <svg width="260" height="260" viewBox="0 0 260 260">
+            <rect x="0" y="0" width="260" height="260" rx="54" fill="#141620"/>
+            <rect x="16" y="16" width="228" height="228" rx="40" fill="#0e1018"/>
+            <rect x="98" y="196" width="64" height="22" rx="5" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+            <rect x="105" y="200" width="50" height="14" rx="3" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.6"/>
+            <text x="130" y="232" text-anchor="middle" fill="rgba(255,255,255,0.18)" font-size="8" font-family="monospace">USB-C</text>
+            <text x="130" y="80" text-anchor="middle" fill="rgba(255,255,255,0.05)" font-size="12" font-family="monospace" font-weight="bold">FOCUS CUBE</text>
+            <text x="130" y="96" text-anchor="middle" fill="rgba(255,255,255,0.03)" font-size="8" font-family="monospace">v6.2 · 55×55×55mm</text>
+            <line x1="55" y1="128" x2="205" y2="128" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+            <line x1="55" y1="140" x2="205" y2="140" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+            <line x1="55" y1="152" x2="205" y2="152" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+          </svg>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="f f-rt">
+          <svg width="260" height="260" viewBox="0 0 260 260">
+            <rect x="0" y="0" width="260" height="260" rx="54" fill="#12141e"/>
+            <rect x="16" y="16" width="228" height="228" rx="40" fill="#0c0e18"/>
+            <text x="130" y="56" text-anchor="middle" fill="rgba(176,102,255,0.3)" font-size="8" letter-spacing="2" font-family="monospace">VOLUME</text>
+            <rect x="50" y="76" width="160" height="42" rx="12" fill="rgba(176,102,255,0.15)" stroke="rgba(176,102,255,0.5)" stroke-width="1.2"/>
+            <text x="130" y="103" text-anchor="middle" fill="#d088ff" font-size="15" font-weight="bold">🔊  Vol +</text>
+            <line x1="80" y1="130" x2="180" y2="130" stroke="rgba(91,91,255,0.15)" stroke-width="1"/>
+            <rect x="50" y="138" width="160" height="42" rx="12" fill="rgba(176,102,255,0.07)" stroke="rgba(176,102,255,0.3)" stroke-width="1"/>
+            <text x="130" y="165" text-anchor="middle" fill="#9966cc" font-size="15" font-weight="bold">🔉  Vol −</text>
+            <line x1="80" y1="192" x2="180" y2="192" stroke="rgba(91,91,255,0.12)" stroke-width="1"/>
+            <rect x="50" y="198" width="160" height="34" rx="10" fill="rgba(91,91,255,0.07)" stroke="rgba(91,91,255,0.2)" stroke-width="0.8"/>
+            <text x="130" y="219" text-anchor="middle" fill="rgba(140,140,220,0.7)" font-size="11">📳  ▸  🔇  ▸  🔊</text>
+          </svg>
+        </div>
+
+        <!-- LEFT -->
+        <div class="f f-lt">
+          <svg width="260" height="260" viewBox="0 0 260 260">
+            <rect x="0" y="0" width="260" height="260" rx="54" fill="#12141e"/>
+            <rect x="16" y="16" width="228" height="228" rx="40" fill="#0c0e18"/>
+            <text x="130" y="52" text-anchor="middle" fill="rgba(91,91,255,0.4)" font-size="8" letter-spacing="2" font-family="monospace">TIME DIAL</text>
+            <circle cx="130" cy="142" r="72" fill="rgba(10,10,30,0.95)" stroke="rgba(91,91,255,0.5)" stroke-width="2.5"/>
+            <circle cx="130" cy="142" r="58" fill="none" stroke="rgba(91,91,255,0.12)" stroke-width="1" stroke-dasharray="5 5"/>
+            <line x1="130" y1="72" x2="130" y2="84" stroke="rgba(91,91,255,0.6)" stroke-width="3"/>
+            <line x1="130" y1="200" x2="130" y2="212" stroke="rgba(91,91,255,0.2)" stroke-width="1.5"/>
+            <line x1="60" y1="142" x2="72" y2="142" stroke="rgba(91,91,255,0.2)" stroke-width="1.5"/>
+            <line x1="188" y1="142" x2="200" y2="142" stroke="rgba(91,91,255,0.2)" stroke-width="1.5"/>
+            <circle cx="130" cy="72" r="8" fill="#5B5BFF"/>
+            <text x="130" y="146" text-anchor="middle" fill="rgba(91,91,255,0.8)" font-size="12" font-weight="bold" font-family="monospace">DIAL</text>
+            <text x="78" y="228" text-anchor="middle" fill="rgba(91,91,255,0.4)" font-size="9">↺ −</text>
+            <text x="182" y="228" text-anchor="middle" fill="rgba(91,91,255,0.4)" font-size="9">↻ +</text>
+          </svg>
+        </div>
+
+        <!-- TOP -->
+        <div class="f f-tp">
+          <svg width="260" height="260" viewBox="0 0 260 260">
+            <rect x="0" y="0" width="260" height="260" rx="54" fill="#14162a"/>
+            <rect x="16" y="16" width="228" height="228" rx="40" fill="#0e1022"/>
+            <text x="130" y="68" text-anchor="middle" fill="rgba(91,91,255,0.35)" font-size="8" letter-spacing="3" font-family="monospace">SMART BUTTON</text>
+            <rect x="55" y="88" width="150" height="84" rx="22" fill="rgba(91,91,255,0.1)" stroke="#5B5BFF" stroke-width="2"/>
+            <circle cx="130" cy="130" r="26" fill="rgba(91,91,255,0.22)" stroke="#5B5BFF" stroke-width="1.5"/>
+            <circle cx="130" cy="130" r="15" fill="#5B5BFF"/>
+            <text x="130" y="192" text-anchor="middle" fill="rgba(255,255,255,0.2)" font-size="8">Press = Start / Pause</text>
+            <text x="130" y="207" text-anchor="middle" fill="rgba(255,255,255,0.15)" font-size="8">Hold 2s = End</text>
+          </svg>
+        </div>
+
+        <!-- BOTTOM -->
+        <div class="f f-bt">
+          <svg width="260" height="260" viewBox="0 0 260 260">
+            <rect x="0" y="0" width="260" height="260" rx="54" fill="#0c0d14"/>
+            <rect x="16" y="16" width="228" height="228" rx="40" fill="#080910"/>
+            <rect x="38" y="38" width="60" height="60" rx="14" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+            <rect x="162" y="38" width="60" height="60" rx="14" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+            <rect x="38" y="162" width="60" height="60" rx="14" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+            <rect x="162" y="162" width="60" height="60" rx="14" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+            <text x="130" y="126" text-anchor="middle" fill="rgba(255,255,255,0.04)" font-size="11" font-family="monospace">FOCUS CUBE</text>
+            <text x="130" y="142" text-anchor="middle" fill="rgba(255,255,255,0.03)" font-size="9" font-family="monospace">FCC · CE · RoHS</text>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="cube-info">
+    <div class="htag">v6.2 — Ring Fixed</div>
+    <div class="htitle">Soft edges.<br>Sharp focus.<br>Every surface<br>has one job.</div>
+    <div class="hdesc">Rounded matte silicone. Feels premium in hand. Six faces, six functions. No app. No menus. Pick it up — it already knows.</div>
+    <ul class="feat-list">
+      <li><span class="fdot" style="background:#5B5BFF"></span><strong style="color:#fff">Front:</strong> Hourglass + full LED ring + status</li>
+      <li><span class="fdot" style="background:#44cc88"></span><strong style="color:#fff">Top:</strong> Single smart button — press/hold</li>
+      <li><span class="fdot" style="background:#B066FF"></span><strong style="color:#fff">Right:</strong> Vol+ · Vol− · Sound mode cycle</li>
+      <li><span class="fdot" style="background:#FFB347"></span><strong style="color:#fff">Left:</strong> Precision dial — 1 click = 1 min</li>
+      <li><span class="fdot" style="background:#ff5555"></span><strong style="color:#fff">Back:</strong> USB-C charging port</li>
+      <li><span class="fdot" style="background:#6b6b8a"></span><strong style="color:#fff">Bottom:</strong> Anti-slip rubber base</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+     PICKUP FLOW
+══════════════════════════ -->
+<div class="sec">Smart Pickup Flow — Step by Step</div>
+<div style="margin-bottom:52px">
+  <div class="flow-tabs">
+    <div class="ftab active" onclick="showStep(0)"><span class="ftab-num">01</span>Pick Up</div>
+    <div class="ftab" onclick="showStep(1)"><span class="ftab-num">02</span>Dial Time</div>
+    <div class="ftab" onclick="showStep(2)"><span class="ftab-num">03</span>Start</div>
+    <div class="ftab" onclick="showStep(3)"><span class="ftab-num">04</span>Running</div>
+    <div class="ftab" onclick="showStep(4)"><span class="ftab-num">05</span>Done</div>
+    <div class="ftab" onclick="showStep(5)"><span class="ftab-num">06</span>Memory</div>
+  </div>
+
+  <div class="flow-panel active" id="step0">
+    <div class="flow-screen">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(91,91,255,0.1)" stroke-width="6"/>
+        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(91,91,255,0.35)" stroke-width="6" stroke-dasharray="314" stroke-dashoffset="280" stroke-linecap="round" transform="rotate(-90 60 60)">
+          <animate attributeName="stroke-dashoffset" values="314;240;314" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <text x="60" y="66" text-anchor="middle" fill="#252542" font-family="monospace" font-size="22" font-weight="bold">00:00</text>
+      </svg>
+      <div style="font-size:9px;color:#6b6b8a;letter-spacing:2px">First pickup ever</div>
+      <div style="font-size:9px;color:#2a2a44;margin-top:3px">← dial left side to set →</div>
+      <div style="position:absolute;bottom:12px;width:40px;height:2px;background:rgba(91,91,255,0.2);border-radius:1px;animation:softpulse 2s ease-in-out infinite"></div>
+    </div>
+    <div class="flow-info">
+      <span class="fi-tag" style="background:rgba(91,91,255,0.1);border:1px solid rgba(91,91,255,0.25);color:#8888ff">IR sensor triggered</span>
+      <div class="fi-title">Device wakes on pickup</div>
+      <div class="fi-desc">IR proximity sensor detects hand within ~3cm. Display wakes in 0.2s. No memory yet — shows 00:00. Ring breathes softly.</div>
+      <div class="fi-box"><strong>Sensor:</strong> Ultra-low power IR — under 0.5mA standby. Wakes instantly from deep sleep.</div>
+    </div>
+  </div>
+
+  <div class="flow-panel" id="step1">
+    <div class="flow-screen">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(91,91,255,0.1)" stroke-width="6"/>
+        <circle cx="60" cy="60" r="50" fill="none" stroke="url(#dg1)" stroke-width="6"
+          stroke-dasharray="314" stroke-dashoffset="196" stroke-linecap="round" transform="rotate(-90 60 60)">
+          <animate attributeName="stroke-dashoffset" values="260;196" dur="0.8s" fill="freeze"/>
+        </circle>
+        <defs><linearGradient id="dg1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#5B5BFF"/><stop offset="100%" stop-color="#B066FF"/></linearGradient></defs>
+        <text x="60" y="66" text-anchor="middle" fill="#5B5BFF" font-family="monospace" font-size="22" font-weight="bold">15:00</text>
+      </svg>
+      <div style="font-size:10px;color:#5B5BFF;letter-spacing:2px">15 min selected</div>
+      <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+        <div style="font-size:16px;color:#5B5BFF">↺</div>
+        <div style="width:60px;height:8px;background:rgba(91,91,255,0.1);border-radius:4px;overflow:hidden">
+          <div style="width:62%;height:100%;background:linear-gradient(90deg,#5B5BFF,#B066FF);border-radius:4px"></div>
+        </div>
+        <div style="font-size:16px;color:#5B5BFF">↻</div>
+      </div>
+    </div>
+    <div class="flow-info">
+      <span class="fi-tag" style="background:rgba(91,91,255,0.1);border:1px solid rgba(91,91,255,0.25);color:#8888ff">Dial rotating</span>
+      <div class="fi-title">Dial to select time</div>
+      <div class="fi-desc">Each tactile click = 1 minute. Clockwise adds, anticlockwise removes. Ring fills proportionally. 2s still = confirmed silently.</div>
+      <div class="fi-box"><strong>Feel:</strong> Notched dial like a watch crown. No button press needed to confirm.</div>
+    </div>
+  </div>
+
+  <div class="flow-panel" id="step2">
+    <div class="flow-screen">
+      <svg width="74" height="94" viewBox="0 0 74 94">
+        <path d="M6 6 L68 6 L68 14 L44 47 L68 80 L68 88 L6 88 L6 80 L30 47 L6 14 Z"
+          fill="rgba(91,91,255,0.1)" stroke="rgba(91,91,255,0.6)" stroke-width="1.6" stroke-linejoin="round"/>
+        <clipPath id="s2t"><polygon points="68,14 44,47 30,47 6,14"/></clipPath>
+        <rect x="6" y="14" width="62" height="33" clip-path="url(#s2t)" fill="rgba(91,91,255,0.48)"/>
+        <ellipse cx="37" cy="46.5" rx="6" ry="2.4" fill="rgba(91,91,255,0.72)"/>
+        <line x1="37" y1="47" x2="37" y2="66" stroke="rgba(91,91,255,0.55)" stroke-width="2.4" stroke-dasharray="3 2.5"><animate attributeName="stroke-dashoffset" from="0" to="11" dur="0.38s" repeatCount="indefinite"/></line>
+        <clipPath id="s2b"><polygon points="6,80 30,47 44,47 68,80"/></clipPath>
+        <rect x="6" y="62" width="62" height="18" clip-path="url(#s2b)" fill="rgba(176,102,255,0.42)"/>
+        <rect x="4" y="3" width="66" height="9" rx="3" fill="rgba(91,91,255,0.14)" stroke="rgba(91,91,255,0.5)" stroke-width="1"/>
+        <rect x="4" y="82" width="66" height="9" rx="3" fill="rgba(91,91,255,0.1)" stroke="rgba(91,91,255,0.3)" stroke-width="0.8"/>
+      </svg>
+      <div style="font-size:9px;color:#44cc88;letter-spacing:2px;margin-top:4px">Started!</div>
+      <div style="font-size:9px;color:#6b6b8a;margin-top:2px">Timer gone · hourglass visible</div>
+    </div>
+    <div class="flow-info">
+      <span class="fi-tag" style="background:rgba(68,204,136,0.08);border:1px solid rgba(68,204,136,0.25);color:#44cc88">Button pressed</span>
+      <div class="fi-title">Timer vanishes → Hourglass</div>
+      <div class="fi-desc">Digital clock disappears. Hourglass takes over — no numbers, no countdown stress. Sand flows at your chosen pace.</div>
+      <div class="fi-box"><strong>Why:</strong> Watching 14:31… triggers anxiety. Sand shows progress without pressure.</div>
+    </div>
+  </div>
+
+  <div class="flow-panel" id="step3">
+    <div class="flow-screen">
+      <svg width="74" height="94" viewBox="0 0 74 94">
+        <path d="M6 6 L68 6 L68 14 L44 47 L68 80 L68 88 L6 88 L6 80 L30 47 L6 14 Z"
+          fill="rgba(91,91,255,0.06)" stroke="rgba(91,91,255,0.4)" stroke-width="1.6" stroke-linejoin="round"/>
+        <clipPath id="s3t"><polygon points="68,14 44,47 30,47 6,14"/></clipPath>
+        <rect x="6" y="28" width="62" height="19" clip-path="url(#s3t)" fill="rgba(91,91,255,0.36)"/>
+        <ellipse cx="37" cy="46.5" rx="4.5" ry="1.8" fill="rgba(91,91,255,0.52)"/>
+        <line x1="37" y1="47" x2="37" y2="64" stroke="rgba(91,91,255,0.42)" stroke-width="1.8" stroke-dasharray="2.5 2"><animate attributeName="stroke-dashoffset" from="0" to="9" dur="0.38s" repeatCount="indefinite"/></line>
+        <clipPath id="s3b"><polygon points="6,80 30,47 44,47 68,80"/></clipPath>
+        <rect x="6" y="62" width="62" height="18" clip-path="url(#s3b)" fill="rgba(176,102,255,0.48)"/>
+        <rect x="4" y="3" width="66" height="9" rx="3" fill="rgba(91,91,255,0.1)" stroke="rgba(91,91,255,0.35)" stroke-width="0.8"/>
+        <rect x="4" y="82" width="66" height="9" rx="3" fill="rgba(176,102,255,0.14)" stroke="rgba(176,102,255,0.4)" stroke-width="0.8"/>
+      </svg>
+      <div style="font-size:9px;color:#B066FF;letter-spacing:2px;margin-top:4px">~HALFWAY</div>
+      <div style="font-size:8px;color:#6b6b8a;margin-top:2px">Ring arc 50% filled</div>
+    </div>
+    <div class="flow-info">
+      <span class="fi-tag" style="background:rgba(176,102,255,0.08);border:1px solid rgba(176,102,255,0.25);color:#B066FF">In progress</span>
+      <div class="fi-title">Sand flows, ring fills</div>
+      <div class="fi-desc">Top half empties, bottom fills. LED ring grows clockwise. No numbers — the hourglass IS the timer.</div>
+      <div class="fi-box"><strong>XP:</strong> No break = <strong style="color:#44cc88">200</strong> · Break = <strong style="color:#FFB347">100</strong> · Early end = <strong style="color:#8888ff">20</strong></div>
+    </div>
+  </div>
+
+  <div class="flow-panel" id="step4">
+    <div class="flow-screen">
+      <svg width="74" height="94" viewBox="0 0 74 94" style="animation:greenPulse 1.5s ease-in-out infinite">
+        <path d="M6 6 L68 6 L68 14 L44 47 L68 80 L68 88 L6 88 L6 80 L30 47 L6 14 Z"
+          fill="rgba(68,204,136,0.07)" stroke="rgba(68,204,136,0.5)" stroke-width="1.6" stroke-linejoin="round"/>
+        <clipPath id="s4b"><polygon points="6,80 30,47 44,47 68,80"/></clipPath>
+        <rect x="6" y="47" width="62" height="33" clip-path="url(#s4b)" fill="rgba(176,102,255,0.55)"/>
+        <rect x="4" y="3" width="66" height="9" rx="3" fill="rgba(68,204,136,0.06)" stroke="rgba(68,204,136,0.2)" stroke-width="0.5"/>
+        <rect x="4" y="82" width="66" height="9" rx="3" fill="rgba(68,204,136,0.18)" stroke="rgba(68,204,136,0.5)" stroke-width="1"/>
+        <text x="37" y="32" text-anchor="middle" fill="rgba(68,204,136,0.7)" font-size="16">✓</text>
+      </svg>
+      <div style="font-size:9px;color:#44cc88;letter-spacing:2px;margin-top:4px">COMPLETE</div>
+      <div style="font-size:8px;color:#6b6b8a;margin-top:2px">+200 XP · Sleep in 2 min</div>
+    </div>
+    <div class="flow-info">
+      <span class="fi-tag" style="background:rgba(68,204,136,0.08);border:1px solid rgba(68,204,136,0.25);color:#44cc88">Top sand empty</span>
+      <div class="fi-title">Sand empty = done</div>
+      <div class="fi-desc">All sand in bottom. Full LED ring pulses green twice. Haptic confirms. XP awarded. Streak +1. Auto-sleep after 2 min.</div>
+      <div class="fi-box"><strong>Sleep:</strong> Display dims over 10s then off. Sensor stays active at ultra-low power.</div>
+    </div>
+  </div>
+
+  <div class="flow-panel" id="step5">
+    <div class="flow-screen">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(91,91,255,0.1)" stroke-width="6"/>
+        <circle cx="60" cy="60" r="50" fill="none" stroke="url(#mg1)" stroke-width="6"
+          stroke-dasharray="314" stroke-dashoffset="196" stroke-linecap="round" transform="rotate(-90 60 60)">
+          <animate attributeName="stroke-dashoffset" values="314;196" dur="0.6s" fill="freeze"/>
+        </circle>
+        <defs><linearGradient id="mg1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#5B5BFF"/><stop offset="100%" stop-color="#B066FF"/></linearGradient></defs>
+        <text x="60" y="66" text-anchor="middle" fill="#5B5BFF" font-family="monospace" font-size="22" font-weight="bold">15:00</text>
+        <circle cx="84" cy="22" r="9" fill="rgba(91,91,255,0.15)" stroke="rgba(91,91,255,0.4)" stroke-width="0.8"/>
+        <text x="84" y="26" text-anchor="middle" fill="#5B5BFF" font-size="10">↺</text>
+      </svg>
+      <div style="font-size:10px;color:#5B5BFF;letter-spacing:2px;margin-top:4px">Remembered!</div>
+      <div style="font-size:9px;color:#6b6b8a;margin-top:2px">Dial to change · Press to keep</div>
+    </div>
+    <div class="flow-info">
+      <span class="fi-tag" style="background:rgba(91,91,255,0.1);border:1px solid rgba(91,91,255,0.3);color:#8888ff">Memory active</span>
+      <div class="fi-title">Picks up where you left off</div>
+      <div class="fi-desc">Cube wakes and shows last used time instantly. Press Start to repeat. Dial to change first. One motion to begin.</div>
+      <div class="fi-box"><strong>Memory:</strong> Stored in flash — survives sleep, battery changes, power cycles.</div>
+    </div>
+  </div>
+
+  <div class="flow-nav">
+    <button class="fnav" onclick="prevStep()">← Previous</button>
+    <button class="fnav p" onclick="nextStep()">Next Step →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+     ALL SIX FACES — RING FIXED
+     Key: viewBox="0 0 260 260", ring cx=130,cy=130,r=108,stroke=12
+     Outer painted edge = 130-108-6 = 16 → safe 16px from every edge
+══════════════════════════ -->
+<div class="sec">All Six Faces — Detailed Views</div>
+<div class="faces-grid">
+
+  <!-- FACE 1 FRONT -->
+  <div class="face-card fc-fr">
+    <div class="face-body">
+      <svg width="200" height="200" viewBox="0 0 260 260" style="display:block">
+        <rect x="0" y="0" width="260" height="260" rx="52" fill="#0d0f18"/>
+        <rect x="6" y="6" width="248" height="248" rx="46" fill="#080a12"/>
+        <circle cx="130" cy="130" r="85" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="10"/>
+        <circle cx="130" cy="130" r="85" fill="none" stroke="url(#faceRing)" stroke-width="10"
+          stroke-dasharray="534" stroke-dashoffset="134" stroke-linecap="round"
+          transform="rotate(-90 130 130)"/>
+        <circle cx="130" cy="45" r="5" fill="#B066FF" opacity="0.75">
+          <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <defs>
+          <linearGradient id="faceRing" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#5B5BFF"/>
+            <stop offset="100%" stop-color="#B066FF"/>
+          </linearGradient>
+          <clipPath id="faceFrontInnerClip">
+            <circle cx="130" cy="130" r="72"/>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#faceFrontInnerClip)">
+          <rect x="66" y="63" width="20" height="11" rx="2.5" fill="none" stroke="rgba(68,204,136,0.75)" stroke-width="1"/>
+          <rect x="67" y="64" width="15" height="9" rx="1.5" fill="rgba(68,204,136,0.6)"/>
+          <rect x="87" y="67" width="2.5" height="5" rx="1" fill="rgba(68,204,136,0.45)"/>
+          <text x="94" y="73" fill="rgba(255,255,255,0.55)" font-size="9" font-family="monospace">72%</text>
+          <text x="120" y="73" fill="rgba(176,102,255,0.9)" font-size="11" font-family="monospace">&#8776;</text>
+          <path d="M88 80 L172 80 L172 87 L148 127 L172 167 L172 174 L88 174 L88 167 L112 127 L88 87 Z"
+            fill="rgba(91,91,255,0.1)" stroke="rgba(91,91,255,0.6)" stroke-width="1.8" stroke-linejoin="round"/>
+          <rect x="88" y="76" width="84" height="9" rx="3" fill="rgba(91,91,255,0.18)" stroke="rgba(91,91,255,0.58)" stroke-width="1.1"/>
+          <rect x="88" y="169" width="84" height="9" rx="3" fill="rgba(91,91,255,0.18)" stroke="rgba(91,91,255,0.58)" stroke-width="1.1"/>
+          <clipPath id="fts3"><polygon points="172,87 148,127 112,127 88,87"/></clipPath>
+          <rect x="88" y="87" width="84" height="40" clip-path="url(#fts3)" fill="rgba(91,91,255,0.44)"/>
+          <ellipse cx="130" cy="126.5" rx="10" ry="3.2" fill="rgba(91,91,255,0.8)"/>
+          <line x1="130" y1="127" x2="130" y2="152" stroke="rgba(91,91,255,0.56)" stroke-width="2.8" stroke-dasharray="3 2.5">
+            <animate attributeName="stroke-dashoffset" from="0" to="11" dur="0.38s" repeatCount="indefinite"/>
+          </line>
+          <clipPath id="fbs3"><polygon points="88,167 112,127 148,127 172,167"/></clipPath>
+          <rect x="88" y="150" width="84" height="17" clip-path="url(#fbs3)" fill="rgba(176,102,255,0.52)"/>
+          <text x="130" y="186" text-anchor="middle" fill="rgba(176,102,255,0.9)" font-size="8" font-family="monospace" font-weight="bold">LVL 12 &#183; 320/500 XP</text>
+          <text x="130" y="197" text-anchor="middle" fill="rgba(255,179,71,0.9)" font-size="8.5" font-family="monospace">&#128293; Streak: 7</text>
+        </g>
+      </svg>
+    </div>
+    <div class="face-foot"><div class="flbl">Face 1</div><div class="fname">Front — Hourglass + Ring</div></div>
+  </div>
+
+  <!-- FACE 2 TOP -->
+  <div class="face-card fc-tp">
+    <div class="face-body">
+      <svg width="200" height="200" viewBox="0 0 260 260" style="display:block">
+        <rect x="0" y="0" width="260" height="260" rx="54" fill="#10122a"/>
+        <rect x="8" y="8" width="244" height="244" rx="46" fill="#0c0e20"/>
+        <text x="130" y="52" text-anchor="middle" fill="rgba(91,91,255,0.35)" font-size="8" letter-spacing="2" font-family="monospace">SMART BUTTON</text>
+        <rect x="40" y="70" width="180" height="100" rx="24" fill="rgba(91,91,255,0.1)" stroke="#5B5BFF" stroke-width="1.8"/>
+        <circle cx="130" cy="120" r="28" fill="rgba(91,91,255,0.22)" stroke="#5B5BFF" stroke-width="1.5"/>
+        <circle cx="130" cy="120" r="16" fill="#5B5BFF"/>
+        <text x="130" y="190" text-anchor="middle" fill="rgba(91,91,255,0.5)" font-size="8">Press = Start / Pause</text>
+        <text x="130" y="206" text-anchor="middle" fill="rgba(91,91,255,0.35)" font-size="8">Hold 2s = End</text>
+        <text x="130" y="222" text-anchor="middle" fill="rgba(255,255,255,0.12)" font-size="7.5">Tactile click + haptic</text>
+      </svg>
+    </div>
+    <div class="face-foot"><div class="flbl">Face 2</div><div class="fname">Top — Smart Button</div></div>
+  </div>
+
+  <!-- FACE 3 RIGHT -->
+  <div class="face-card fc-rt">
+    <div class="face-body">
+      <div class="face-display" style="background:rgba(10,8,24,0.5);width:200px;height:200px">
+        <div style="font-size:7px;letter-spacing:3px;color:#6b6b8a;text-transform:uppercase;font-family:'Orbitron',monospace;margin-bottom:4px">Volume</div>
+        <div class="vbtn on" style="width:140px">🔊 &nbsp;Vol +</div>
+        <div class="vdiv" style="width:100px"></div>
+        <div class="vbtn" style="width:140px">🔉 &nbsp;Vol −</div>
+        <div style="height:8px"></div>
+        <div style="font-size:7px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:4px">Sound Mode</div>
+        <div class="vmode" style="width:140px">📳 &nbsp;▸&nbsp; 🔇 &nbsp;▸&nbsp; 🔊</div>
+        <div style="font-size:8px;color:#333;margin-top:5px">slide to cycle</div>
+      </div>
+    </div>
+    <div class="face-foot"><div class="flbl">Face 3</div><div class="fname">Right — Volume + Mode</div></div>
+  </div>
+
+  <!-- FACE 4 LEFT -->
+  <div class="face-card fc-lt">
+    <div class="face-body">
+      <div class="face-display" style="background:rgba(8,8,22,0.5);width:200px;height:200px">
+        <div style="font-size:7px;letter-spacing:3px;color:#6b6b8a;text-transform:uppercase;font-family:'Orbitron',monospace">Time Dial</div>
+        <div class="dial-c" style="width:104px;height:104px">
+          <svg width="104" height="104" viewBox="0 0 104 104" style="position:absolute;top:0;left:0">
+            <circle cx="52" cy="52" r="42" fill="none" stroke="rgba(91,91,255,0.1)" stroke-width="0.8" stroke-dasharray="4 4"/>
+            <line x1="52" y1="12" x2="52" y2="20" stroke="rgba(91,91,255,0.5)" stroke-width="2.5"/>
+            <line x1="52" y1="84" x2="52" y2="92" stroke="rgba(91,91,255,0.2)" stroke-width="1"/>
+            <line x1="12" y1="52" x2="20" y2="52" stroke="rgba(91,91,255,0.2)" stroke-width="1"/>
+            <line x1="84" y1="52" x2="92" y2="52" stroke="rgba(91,91,255,0.2)" stroke-width="1"/>
+          </svg>
+          <div style="font-size:10px;font-weight:700;color:#5B5BFF;font-family:'Orbitron',monospace;margin-top:8px">DIAL</div>
+        </div>
+        <div style="font-size:9px;color:#444;text-align:center;line-height:1.8">↻ clockwise = +time<br>↺ anticlockwise = −time<br><span style="color:#2a2a44">1 click = 1 min</span></div>
+      </div>
+    </div>
+    <div class="face-foot"><div class="flbl">Face 4</div><div class="fname">Left — Precision Dial</div></div>
+  </div>
+
+  <!-- FACE 5 BACK -->
+  <div class="face-card fc-bk">
+    <div class="face-body">
+      <svg width="200" height="200" viewBox="0 0 260 260" style="display:block">
+        <rect x="0" y="0" width="260" height="260" rx="54" fill="#0c0e1c"/>
+        <rect x="8" y="8" width="244" height="244" rx="46" fill="#080a14"/>
+        <text x="130" y="70" text-anchor="middle" fill="rgba(255,255,255,0.06)" font-size="12" font-family="monospace" font-weight="bold">FOCUS CUBE</text>
+        <text x="130" y="88" text-anchor="middle" fill="rgba(255,255,255,0.03)" font-size="9" font-family="monospace">55 × 55 × 55 mm</text>
+        <line x1="44" y1="108" x2="216" y2="108" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+        <line x1="44" y1="122" x2="216" y2="122" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+        <line x1="44" y1="136" x2="216" y2="136" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+        <line x1="44" y1="150" x2="216" y2="150" stroke="rgba(255,255,255,0.025)" stroke-width="1"/>
+        <rect x="88" y="176" width="84" height="22" rx="5" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+        <rect x="95" y="180" width="70" height="14" rx="3" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.6"/>
+        <text x="130" y="214" text-anchor="middle" fill="rgba(255,255,255,0.2)" font-size="9">USB-C Charging</text>
+      </svg>
+    </div>
+    <div class="face-foot"><div class="flbl">Face 5</div><div class="fname">Back — USB-C Port</div></div>
+  </div>
+
+  <!-- FACE 6 BOTTOM -->
+  <div class="face-card fc-bt">
+    <div class="face-body">
+      <svg width="200" height="200" viewBox="0 0 260 260" style="display:block">
+        <rect x="0" y="0" width="260" height="260" rx="54" fill="#080910"/>
+        <rect x="8" y="8" width="244" height="244" rx="46" fill="#060710"/>
+        <rect x="28" y="28" width="80" height="80" rx="16" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.07)" stroke-width="0.8"/>
+        <rect x="152" y="28" width="80" height="80" rx="16" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.07)" stroke-width="0.8"/>
+        <rect x="28" y="152" width="80" height="80" rx="16" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.07)" stroke-width="0.8"/>
+        <rect x="152" y="152" width="80" height="80" rx="16" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.07)" stroke-width="0.8"/>
+        <text x="130" y="124" text-anchor="middle" fill="rgba(255,255,255,0.04)" font-size="10" font-family="monospace">FOCUS CUBE</text>
+        <text x="130" y="140" text-anchor="middle" fill="rgba(255,255,255,0.025)" font-size="9" font-family="monospace">FCC · CE · RoHS</text>
+      </svg>
+    </div>
+    <div class="face-foot"><div class="flbl">Face 6</div><div class="fname">Bottom — Anti-slip</div></div>
+  </div>
+
+</div>
+
+<!-- LED RING -->
+<div class="sec">LED Ring Color System</div>
+<div class="led-grid">
+  <div class="led-card lc-s">
+    <div style="flex-shrink:0;width:80px;height:80px;display:flex;align-items:center;justify-content:center">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="33" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="7"/>
+        <circle cx="40" cy="40" r="33" fill="none" stroke="url(#ls)" stroke-width="7" stroke-dasharray="207" stroke-dashoffset="52" stroke-linecap="round" transform="rotate(-90 40 40)">
+          <animate attributeName="stroke-dashoffset" values="207;52;207" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <defs><linearGradient id="ls" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#5B5BFF"/><stop offset="100%" stop-color="#B066FF"/></linearGradient></defs>
+        <circle cx="40" cy="40" r="20" fill="rgba(8,8,22,0.95)"/>
+        <text x="40" y="45" text-anchor="middle" fill="#5B5BFF" font-size="14">▶</text>
+      </svg>
+    </div>
+    <div><div class="led-state" style="color:#5B5BFF">State 1</div><div class="led-name" style="color:#8888ff">Blue → Purple</div><div class="led-desc">Fills clockwise as session progresses. Arc grows 0%→100%.</div><div class="led-trigger" style="background:rgba(91,91,255,0.1);border:1px solid rgba(91,91,255,0.25);color:#8888ff">Session in progress</div></div>
+  </div>
+  <div class="led-card lc-b">
+    <div style="flex-shrink:0;width:80px;height:80px;display:flex;align-items:center;justify-content:center">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="33" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="7"/>
+        <circle cx="40" cy="40" r="33" fill="none" stroke="url(#lb)" stroke-width="7" stroke-dasharray="207" stroke-dashoffset="96" stroke-linecap="round" transform="rotate(-90 40 40)">
+          <animate attributeName="stroke-dashoffset" values="96;110;96;82;96" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <defs><linearGradient id="lb" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FFB347"/><stop offset="100%" stop-color="#FF6699"/></linearGradient></defs>
+        <circle cx="40" cy="40" r="20" fill="rgba(8,8,22,0.95)"/>
+        <text x="40" y="45" text-anchor="middle" fill="#FFB347" font-size="14">⏸</text>
+      </svg>
+    </div>
+    <div><div class="led-state" style="color:#FFB347">State 2</div><div class="led-name" style="color:#FFB347">Amber → Pink</div><div class="led-desc">Holds position and breathes slowly. Paused, not losing progress.</div><div class="led-trigger" style="background:rgba(255,179,71,0.08);border:1px solid rgba(255,179,71,0.25);color:#FFB347">Break / Paused</div></div>
+  </div>
+  <div class="led-card lc-d">
+    <div style="flex-shrink:0;width:80px;height:80px;display:flex;align-items:center;justify-content:center;animation:greenPulse 1.5s ease-in-out infinite">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="33" fill="none" stroke="rgba(68,204,136,0.12)" stroke-width="7"/>
+        <circle cx="40" cy="40" r="33" fill="none" stroke="url(#ld)" stroke-width="7" stroke-dasharray="207" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 40 40)"/>
+        <defs><linearGradient id="ld" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#44cc88"/><stop offset="100%" stop-color="#00eebb"/></linearGradient></defs>
+        <circle cx="40" cy="40" r="20" fill="rgba(8,8,22,0.95)"/>
+        <text x="40" y="45" text-anchor="middle" fill="#44cc88" font-size="14">✓</text>
+      </svg>
+    </div>
+    <div><div class="led-state" style="color:#44cc88">State 3</div><div class="led-name" style="color:#44cc88">Green Pulse</div><div class="led-desc">Full ring pulses twice. XP awarded. Haptic confirms. Fades to sleep.</div><div class="led-trigger" style="background:rgba(68,204,136,0.08);border:1px solid rgba(68,204,136,0.25);color:#44cc88">Complete · +200 XP</div></div>
+  </div>
+  <div class="led-card lc-l">
+    <div style="flex-shrink:0;width:80px;height:80px;display:flex;align-items:center;justify-content:center">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="33" fill="none" stroke="rgba(255,68,68,0.1)" stroke-width="7"/>
+        <circle cx="40" cy="40" r="33" fill="none" stroke="url(#ll)" stroke-width="7" stroke-dasharray="207" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 40 40)">
+          <animate attributeName="opacity" values="1;0.15;1;0.15;1;0.15;1" dur="1.2s" repeatCount="indefinite"/>
+        </circle>
+        <defs><linearGradient id="ll" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff4444"/><stop offset="100%" stop-color="#FFB347"/></linearGradient></defs>
+        <circle cx="40" cy="40" r="20" fill="rgba(8,8,22,0.95)"/>
+        <text x="40" y="45" text-anchor="middle" fill="#ff6666" font-size="14">▲</text>
+      </svg>
+    </div>
+    <div><div class="led-state" style="color:#ff6666">State 4</div><div class="led-name" style="color:#ff6666">Red → Amber Flash</div><div class="led-desc">Flashes 3× rapidly when level increases. Rare and exciting.</div><div class="led-trigger" style="background:rgba(255,68,68,0.08);border:1px solid rgba(255,68,68,0.22);color:#ff8888">Level up!</div></div>
+  </div>
+</div>
+
+<!-- XP + STREAK -->
+<div class="sec">XP System + Streak</div>
+<div class="xp-grid">
+  <div class="xp-card">
+    <div class="xp-card-title">Focus XP Rules</div>
+    <div class="xp-row"><div class="xbadge b200">200</div><div class="xdesc"><strong style="color:#44cc88">No break taken</strong><br>Complete full session without pausing</div></div>
+    <div class="xp-row"><div class="xbadge b100">100</div><div class="xdesc"><strong style="color:#FFB347">With a break</strong><br>Paused but still finished the session</div></div>
+    <div class="xp-row"><div class="xbadge b20">20</div><div class="xdesc"><strong style="color:#8888ff">Ended early</strong><br>You showed up — that still counts</div></div>
+  </div>
+  <div class="xp-card">
+    <div class="xp-card-title">Daily Streak</div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px"><div class="streak-big">7</div><div style="font-size:12px;color:#8888aa">days in a row</div></div>
+    <div class="streak-dots">
+      <div class="sd done"><div class="sdl">M</div><div class="sdv">✓</div></div>
+      <div class="sd done"><div class="sdl">T</div><div class="sdv">✓</div></div>
+      <div class="sd done"><div class="sdl">W</div><div class="sdv">✓</div></div>
+      <div class="sd done"><div class="sdl">T</div><div class="sdv">✓</div></div>
+      <div class="sd done"><div class="sdl">F</div><div class="sdv">✓</div></div>
+      <div class="sd done"><div class="sdl">S</div><div class="sdv">✓</div></div>
+      <div class="sd today"><div class="sdl">S</div><div class="sdv">·</div></div>
+    </div>
+    <div style="font-size:11px;color:#6b6b8a;line-height:1.7">1 session any day = +1 streak<br>Any XP earned counts (20/100/200)<br>Miss a full day = resets to 0</div>
+  </div>
+</div>
+
+<!-- SPECS -->
+<div class="sec">Hardware at a Glance</div>
+<div class="specs-grid">
+  <div class="spec"><div class="sv">55<span class="su">mm</span></div><div class="sn">Each side</div></div>
+  <div class="spec"><div class="sv">36<span class="su">LED</span></div><div class="sn">NeoPixel ring</div></div>
+  <div class="spec"><div class="sv">60<span class="su">hr</span></div><div class="sn">Battery life</div></div>
+  <div class="spec"><div class="sv">IR<span class="su">+flash</span></div><div class="sn">Pickup sensor</div></div>
+</div>
+
+<div class="cta">
+  <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#5B5BFF">Target Retail Price</div>
+  <div style="font-family:'Orbitron',monospace;font-size:36px;font-weight:900;color:#fff;margin:8px 0">$79</div>
+  <div style="font-size:12px;color:#6b6b8a;margin-bottom:18px">Matte Silicone · Rounded Edges · Pickup Sensor · LED Ring · USB-C · 60hr</div>
+  <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+    <button class="btn-p">Pre-order Now</button>
+    <button class="btn-o">Send to Manufacturer ↗</button>
+  </div>
+</div>
+<div class="footer">Focus Cube v6.2 · Ring Fixed · Complete Design Brief · 2025</div>
+</div>
+
+<script>
+let step=0,total=6;
+function showStep(n){
+  document.querySelectorAll('.flow-panel').forEach((p,i)=>p.classList.toggle('active',i===n));
+  document.querySelectorAll('.ftab').forEach((t,i)=>t.classList.toggle('active',i===n));
+  step=n;
+}
+function nextStep(){showStep((step+1)%total)}
+function prevStep(){showStep((step-1+total)%total)}
+</script>
+</body>
+</html>
